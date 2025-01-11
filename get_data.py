@@ -25,6 +25,7 @@ async def get_html_content(username):
     await scroll_to_bottom(page)
 
     html_content = await page.get_content()
+    page.close()
 
     return html_content
 

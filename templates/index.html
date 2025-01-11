@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedScraper</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style>
+        .comment {
+            border: 1px solid black;
+            margin: 2px;
+            padding: 2px;
+        }
+
+        .output {
+            display: flex;
+            /* justify-content: space-between; */
+        }
+        .output > div {
+            /* flex: 1; */
+            margin: 10px;
+        }
+        table {
+            /* width: 100%; */
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-input">
+        <input type="text" class="input" placeholder="Enter reddit username">
+        <button class="submit">Retrieve</button>
+    </div>
+    <div class="filter">
+        <input type="text" name="daterange" class="date" value="01/01/2025 - 11/01/2025"/>
+        <div class="select-subreddit">
+            <select>
+                <option value="all" selected>All</option>
+                {% for subreddit in data.subreddits %}
+                <option value="{{ subreddit }}">{{ subreddit }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="text" class="input" placeholder="Plaat zoekterm">
+        <button class="submit">Toepassen</button>
+    </div>
+    
+    
+    <div class="output">
+        <div id="subreddits-rank">
+            <!-- table columns [subreddit, num-posts] -->
+            <table>
+                <tr>
+                    <th>Subreddit</th>
+                    <th>Number of Posts</th>
+                </tr>
+                {% for subreddit in data.post_per_subreddit %}
+                <tr>
+                    <td>{{ subreddit }}</td>
+                    <td>{{ data.post_per_subreddit[subreddit] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="post-day-rank">
+            <!-- table columns [date, num-posts] -->
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Number of Posts</th>
+                </tr>
+                {% for date in data.post_per_day %}
+                <tr>
+                    <td>{{ date }}</td>
+                    <td>{{ data.post_per_day[date] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="comments">
+        {% for comment in data.comments %}
+        <div class="comment">
+            <a href="{{ comment['link'] }}">{{ comment['subreddit'] }}</a>
+            <time datetime="{{ comment['timestamp']}}">{{ comment['timestamp'] }}</time>
+            <p>{{ comment['content'] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        $(function() {
+          $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+          }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+          });
+        });
+    </script>
+</body>
+</html>
