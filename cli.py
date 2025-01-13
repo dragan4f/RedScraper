@@ -1,8 +1,7 @@
 from pprint import pprint
-import json
 
-from filters import filter_comments, filter_subreddits, filter_date_range
-from scrape_data import get_user_comments
+import filters
+import scrape
 
 help_message = """
     Enter 'exit' to exit the program.
@@ -31,7 +30,7 @@ def run_cli():
 
         elif command.startswith("get"):
             username = command.split(" ")[1]
-            user_comments = get_user_comments(username)
+            user_comments = scrape.get_user_comments(username)
 
         elif command == "show":
             pprint(user_comments)
@@ -45,21 +44,24 @@ def run_cli():
 
             if filter_type == "key":
                 keyword = command.split(" ")[2]
+
                 pprint(
-                    filter_comments(user_comments, keyword)
+                    filters.filter_by_keyword(user_comments, keyword)
                 )
 
             elif filter_type == "sub":
                 subreddit = command.split(" ")[2]
+
                 pprint(
-                    filter_subreddits(user_comments, subreddit)
+                    filters.filter_by_subreddits(user_comments, subreddit)
                 )
 
             elif filter_type == "date":
                 start_date = command.split(" ")[2]
                 end_date = command.split(" ")[3]
+
                 pprint(
-                    filter_date_range(user_comments, start_date, end_date)
+                    filters.filter_by_date_range(user_comments, start_date, end_date)
                 )
 
             else:
@@ -67,3 +69,6 @@ def run_cli():
 
         else:
             print("Invalid command. Enter 'help' to view the menu.")
+
+if __name__ == "__main__":
+    run_cli()

@@ -1,4 +1,4 @@
-def filter_comments(comments, keyword):
+def filter_by_keyword(comments, keyword):
     filtered_comments = []
 
     for comment in comments:
@@ -7,7 +7,7 @@ def filter_comments(comments, keyword):
 
     return filtered_comments
 
-def filter_subreddits(comments, subreddits):
+def filter_by_subreddits(comments, subreddits):
     filtered_comments = []
 
     for comment in comments:
@@ -16,7 +16,7 @@ def filter_subreddits(comments, subreddits):
 
     return filtered_comments
 
-def filter_date_range(comments, start_date, end_date):
+def filter_by_date_range(comments, start_date, end_date):
     filtered_comments = []
 
     for comment in comments:

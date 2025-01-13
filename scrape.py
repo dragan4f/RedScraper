@@ -7,8 +7,8 @@ async def scroll_to_bottom(page):
 
     while new_height != cur_height:
         cur_height = new_height
-
         await page.scroll_down(900)
+
         new_height = await page.evaluate("document.body.scrollHeight")
 
 async def get_html_content(username):
@@ -18,11 +18,12 @@ async def get_html_content(username):
     page = await browser.get(url)
 
     await page.wait_for("shreddit-profile-comment")
-    await page.wait(0.1)
+    # await page.wait(0.1)
 
     await scroll_to_bottom(page)
 
     html_content = await page.get_content()
+
     await page.close()
 
     return html_content
