@@ -1,10 +1,9 @@
 # Reddit Comment Scraper
 
-This project scrapes comments from a Reddit user's profile using Selenium WebDriver and BeautifulSoup.
+THis projec scrapes comments from a Reddit user's profile using [nodriver](https://github.com/ultrafunkamsterdam/nodriver), [BeautifulSoup](https://pypi.org/project/beautifulsoup4/) and [Flask](https://flask.palletsprojects.com/en/stable/).
 
 ## Prerequisites
-
-- Python 3.12
+- Python 3.13.1
 - Google Chrome browser
 
 ## Installation
@@ -25,13 +24,11 @@ This project scrapes comments from a Reddit user's profile using Selenium WebDri
 3. Activate the virtual environment:
 
     - On Windows:
-
         ```sh
         venv\Scripts\activate
         ```
 
     - On macOS/Linux:
-
         ```sh
         source venv/bin/activate
         ```
@@ -44,23 +41,15 @@ This project scrapes comments from a Reddit user's profile using Selenium WebDri
 
 ## Usage
 
-1. Run the script:
-
+- For the command line interface:
     ```sh
-    python main.py
+    python cli.py
     ```
 
-2. The script will scrape comments from the specified Reddit user's profile and print them.
-
-## Configuration
-
-- You can change the Reddit username in the [main.py](http://_vscodecontentref_/0) file by modifying the [username](http://_vscodecontentref_/1) variable.
-
-## Dependencies
-
-- `selenium`
-- `beautifulsoup4`
-- `webdriver-manager`
+- For the web interface:
+    ```sh
+    python server.py
+    ```
 
 ## License
 

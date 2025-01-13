@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="filter">
+        <form action="/filter_comments" method="post">
+            <label for="daterange">Van: </label>
+            <input type="date" id="start" class="filter-option" name="date-start">
+
+            <label for="daterange">Tot: </label>
+            <input type="date" id="end" class="filter-option" name="date-end">
+
+            <div class="select-subreddit">
+                <label for="subreddit">Subreddit: </label>
+
+                <select id="subreddit" class="filter-option" name="subreddit">
+                    <option value="all" selected>Alle</option>
+                    {% for subreddit in data.subreddits %}
+                    <option value="{{ subreddit }}">{{ subreddit }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <label for="search-term">Zoekterm: </label>
+            <input type="text" class="filter-option" name="search-term" placeholder="Plaat zoekterm">
+
+            <input type="hidden" name="username" value="{{ data.username }}">
+            <button class="submit">Filter toepassen</button>
+        </form>
+    </div>
+
+    <div class="main-content">
+        <div class="comments">
+            {% for comment in data.comments %}
+            <div class="comment">
+                <a href="{{ comment['link'] }}">{{ comment['subreddit'] }}</a>
+                <time datetime="{{ comment['timestamp']}}">{{ comment['timestamp'] }}</time>
+                <p>{{ comment['content'] }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="analysis">
+            <div id="subreddits-rank">
+                <table>
+                    <tr>
+                        <th>Subreddit</th>
+                        <th>Number of Posts</th>
+                    </tr>
+
+                    {% for subreddit, num_posts in data.post_per_subreddit.items() %}
+                    <tr>
+                        <td>{{ subreddit }}</td>
+                        <td>{{ num_posts }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div id="post-day-rank">
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Number of Posts</th>
+                    </tr>
+
+                    {% for date, num_posts in data.post_per_day.items() %}
+                    <tr>
+                        <td>{{ date }}</td>
+                        <td>{{ num_posts }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
