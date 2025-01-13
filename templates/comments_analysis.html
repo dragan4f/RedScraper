@@ -46,22 +46,30 @@
 </head>
 <body>
     <div class="filter">
-        <label for="daterange">Van: </label>
-        <input type="date" id="start" name="start">
-        <label for="daterange">Tot: </label>
-        <input type="date" id="end" name="end">
-        <div class="select-subreddit">
-            <label for="subreddit">Subreddit: </label>
-            <select>
-                <option value="all" selected>Alle</option>
-                {% for subreddit in data.subreddits %}
-                <option value="{{ subreddit }}">{{ subreddit }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <label for="search">Zoekterm: </label>
-        <input type="text" class="input" placeholder="Plaat zoekterm">
-        <button class="submit">Filter toepassen</button>
+        <form action="/filter_comments" method="post">
+            <label for="daterange">Van: </label>
+            <input type="date" id="start" name="date-start">
+            <label for="daterange">Tot: </label>
+            <input type="date" id="end" name="date-end">
+            <div class="select-subreddit">
+                <label for="subreddit">Subreddit: </label>
+                <select id="subreddit" name="subreddit">
+                    <option value="all" selected>Alle</option>
+                    {% for subreddit in data.subreddits %}
+                    <option value="{{ subreddit }}">{{ subreddit }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <label for="search">Zoekterm: </label>
+            <input type="text" class="input" name="search-term" placeholder="Plaat zoekterm">
+            <input type="hidden" name="username" value="{{ data.username }}">
+            <button class="submit">Filter toepassen</button>
+        </form>
+
+        <form action="/clear_filter" method="post">
+            <input type="hidden" name="username" value="{{ data.username }}">
+            <button class="submit">Filter verwijderen</button>
+        </form>
     </div>
     
     <div class="main-content">

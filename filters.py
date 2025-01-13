@@ -2,7 +2,7 @@ def filter_comments(comments, keyword):
     filtered_comments = []
 
     for comment in comments:
-        if keyword.lower() in comment.content.lower():
+        if keyword.lower() in comment['content'].lower():
             filtered_comments.append(comment)
 
     return filtered_comments
@@ -11,7 +11,7 @@ def filter_subreddits(comments, subreddits):
     filtered_comments = []
 
     for comment in comments:
-        if comment.subreddit in subreddits:
+        if comment['subreddit'] in subreddits:
             filtered_comments.append(comment)
 
     return filtered_comments
@@ -20,9 +20,8 @@ def filter_date_range(comments, start_date, end_date):
     filtered_comments = []
 
     for comment in comments:
-        date = comment.timestamp.split("T")[0]
+        date = comment['timestamp'].split("T")[0]
         if start_date <= date <= end_date:
-            print(date, "match")
             filtered_comments.append(comment)
 
     return filtered_comments
