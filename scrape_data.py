@@ -1,8 +1,6 @@
 import nodriver as uc
 from bs4 import BeautifulSoup
 
-from comment import Comment
-
 async def scroll_to_bottom(page):
     cur_height = await page.evaluate("document.body.scrollHeight")
     new_height = 0
@@ -25,7 +23,7 @@ async def get_html_content(username):
     await scroll_to_bottom(page)
 
     html_content = await page.get_content()
-    page.close()
+    await page.close()
 
     return html_content
 
@@ -46,8 +44,11 @@ def get_user_comments(username):
         content = comment.find("div", class_="md").text.strip()
         datetime = comment.find("time").attrs['datetime']
 
-        processed_comments.append(
-            Comment(subreddit, full_link, datetime, content)
-        )
+        processed_comments.append({
+            "subreddit": subreddit,
+            "full_link": full_link,
+            "timestamp": datetime,
+            "content": content
+        })
 
     return processed_comments

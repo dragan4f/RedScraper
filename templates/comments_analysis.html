@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .comment {
+            border: 1px solid black;
+            margin: 2px;
+            padding: 2px;
+        }
+
+        .analysis {
+            display: flex;
+            /* justify-content: space-between; */
+        }
+        .analysis > div {
+            /* flex: 1; */
+            margin: 10px;
+        }
+        table {
+            /* width: 100%; */
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .main-content {
+            display: flex;
+        }
+        .comments {
+            margin: 8px;
+        }
+
+        .filter {
+            /* display: flex; */
+            /* justify-content: space-between; */
+            margin: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="filter">
+        <label for="daterange">Van: </label>
+        <input type="date" id="start" name="start">
+        <label for="daterange">Tot: </label>
+        <input type="date" id="end" name="end">
+        <div class="select-subreddit">
+            <label for="subreddit">Subreddit: </label>
+            <select>
+                <option value="all" selected>Alle</option>
+                {% for subreddit in data.subreddits %}
+                <option value="{{ subreddit }}">{{ subreddit }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <label for="search">Zoekterm: </label>
+        <input type="text" class="input" placeholder="Plaat zoekterm">
+        <button class="submit">Filter toepassen</button>
+    </div>
+    
+    <div class="main-content">
+        <div class="comments">
+            {% for comment in data.comments %}
+            <div class="comment">
+                <a href="{{ comment['link'] }}">{{ comment['subreddit'] }}</a>
+                <time datetime="{{ comment['timestamp']}}">{{ comment['timestamp'] }}</time>
+                <p>{{ comment['content'] }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="analysis">
+            <div id="subreddits-rank">
+                <table>
+                    <tr>
+                        <th>Subreddit</th>
+                        <th>Number of Posts</th>
+                    </tr>
+                    {% for subreddit, num_posts in data.post_per_subreddit.items() %}
+                    <tr>
+                        <td>{{ subreddit }}</td>
+                        <td>{{ num_posts }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div id="post-day-rank">
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Number of Posts</th>
+                    </tr>
+                    {% for date, num_posts in data.post_per_day.items() %}
+                    <tr>
+                        <td>{{ date }}</td>
+                        <td>{{ num_posts }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
